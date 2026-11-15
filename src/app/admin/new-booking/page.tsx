@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const DEVICES = [
-  { id: "ps1", name: "PS 1", type: "ps5", price: 250, available: true },
-  { id: "ps2", name: "PS 2", type: "ps5", price: 250, available: true },
-  { id: "ps3", name: "PS 3", type: "ps5", price: 250, available: false },
+  { id: "ps1", name: "Station 1", type: "ps5", price: 250, available: true },
+  { id: "ps2", name: "Station 2", type: "ps5", price: 250, available: true },
+  { id: "ps3", name: "Station 3", type: "ps5", price: 250, available: false },
   { id: "vr1", name: "VR 1", type: "vr", price: 300, available: true },
   { id: "vr2", name: "VR 2", type: "vr", price: 300, available: true },
   { id: "sim", name: "Racing Sim", type: "sim", price: 350, available: true },

@@ -34,7 +34,7 @@ export default function SupportPage() {
                 <span className="material-symbols-outlined text-frost-sky text-[24px]">schedule</span>
                 <div className="flex flex-col">
                   <span className="font-body-md text-body-sm text-on-surface font-semibold">Opening Hours</span>
-                  <span className="font-body-sm text-body-sm text-on-surface-variant">12:00 PM – 1:00 AM (Daily)</span>
+                  <span className="font-body-sm text-body-sm text-on-surface-variant">10:00 AM – 10:00 PM (Daily)</span>
                 </div>
               </div>
             </div>

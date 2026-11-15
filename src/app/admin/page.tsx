@@ -16,9 +16,9 @@ interface AdminDevice {
 }
 
 const ADMIN_DEVICES: AdminDevice[] = [
-  { id: "ps1", name: "PS 1", type: "ps5", state: "free" },
-  { id: "ps2", name: "PS 2", type: "ps5", state: "running", countdown: "42:18", session: "Rahul • 2P" },
-  { id: "ps3", name: "PS 3", type: "ps5", state: "free" },
+  { id: "ps1", name: "Station 1", type: "ps5", state: "free" },
+  { id: "ps2", name: "Station 2", type: "ps5", state: "running", countdown: "42:18", session: "Rahul • 2P" },
+  { id: "ps3", name: "Station 3", type: "ps5", state: "free" },
   { id: "vr1", name: "VR 1", type: "vr", state: "free" },
   { id: "vr2", name: "VR 2", type: "vr", state: "running", countdown: "18:05", session: "Priya • 2P" },
   { id: "sim", name: "Racing Sim", type: "sim", state: "upcoming", countdown: "in 12 min" },

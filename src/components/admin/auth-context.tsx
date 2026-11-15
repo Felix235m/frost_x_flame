@@ -2,7 +2,7 @@
 
 import { createContext, useContext, ReactNode } from "react";
 
-interface StaffSession {
+export interface StaffSession {
   staff_id: string;
   name: string;
   role: "owner" | "staff";

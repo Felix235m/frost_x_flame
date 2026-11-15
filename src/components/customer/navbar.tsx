@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const LOGO_SRC =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCZ1KfUlAEZ2KouPAYZUE9xiGFw72XhI5777kQ9ZGkhZ9kU8yCGFS68D3O9Y9YOvyAUlqgtGzWapyDVfXOvRa3lRSfkAWgT-Qjj4oBViPGQZf_StxKsibmjMr5zhk8XB5WCiiatZaM-pNZh5AgRmSJ3x4CxrN9XOWjLtk8E5Yiym7FwBCcmf6JHZm05-jrqpc29bCT-U6d8pBrqqNZU53b1r6NdIvDQOk0us1HGACE";
+import { BRAND_LOGO } from "@/lib/content/brand";
 
 const navItems = [
   { href: "/customer", icon: "sports_esports", label: "Arena" },
@@ -25,7 +23,7 @@ export function Navbar() {
       <div className="mx-auto flex h-20 w-full max-w-app items-center justify-between gap-4 px-4 md:px-10">
         <Link href="/customer" className="flex min-w-0 items-center gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-container-lowest shadow-sm">
-            <img alt="Frost x Flame logo" className="h-full w-full object-cover" src={LOGO_SRC} />
+            <img alt="Frost x Flame logo" className="h-full w-full object-cover" src={BRAND_LOGO} />
           </span>
           <span className="flex min-w-0 flex-col">
             <span className="flex items-center gap-1.5 font-heading text-[15px] font-bold uppercase tracking-[0.12em] sm:text-headline-sm sm:tracking-wider">
@@ -37,7 +35,7 @@ export function Navbar() {
             </span>
             <span className="mt-0.5 flex items-center gap-1.5 text-label-badge uppercase tracking-wider text-on-surface-variant">
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-status-available shadow-[0_0_8px_#10B981]" />
-              <span className="truncate">Open till 1 AM, live floor</span>
+              <span className="truncate">Open till 10PM, live floor</span>
             </span>
           </span>
         </Link>

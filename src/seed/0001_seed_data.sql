@@ -3,9 +3,9 @@
 
 -- Devices (from floor plan: 3 PS5 top row, VR zone top-right VR 1+VR 2, racing sim below right)
 INSERT INTO devices (name, type, zone, display_order, max_persons, image_url, description, is_active) VALUES
-  ('PS 1', 'ps5', 'Stage North', 1, 4, '/images/devices/ps1.png', 'PlayStation 5 Pro • 65" OLED 120Hz', true),
-  ('PS 2', 'ps5', 'Stage North', 2, 4, '/images/devices/ps2.png', 'PlayStation 5 Pro • 65" OLED 120Hz', true),
-  ('PS 3', 'ps5', 'Stage North', 3, 4, '/images/devices/ps3.png', 'PlayStation 5 Pro • 65" OLED 120Hz', true),
+  ('Station 1', 'ps5', 'Stage North', 1, 4, '/images/devices/ps1.png', 'PlayStation 5 Pro • 65" OLED 120Hz', true),
+  ('Station 2', 'ps5', 'Stage North', 2, 4, '/images/devices/ps2.png', 'PlayStation 5 Pro • 65" OLED 120Hz', true),
+  ('Station 3', 'ps5', 'Stage North', 3, 4, '/images/devices/ps3.png', 'PlayStation 5 Pro • 65" OLED 120Hz', true),
   ('VR 1', 'vr', 'VR Zone Arena', 4, 2, '/images/devices/vr1.png', 'VR Arena Pod • Omni Mat • Sony Pulse 3D', true),
   ('VR 2', 'vr', 'VR Zone Arena', 5, 2, '/images/devices/vr2.png', 'VR Arena Pod • Omni Mat • Sony Pulse 3D', true),
   ('Racing Simulator', 'sim', 'Sim Zone', 6, 2, '/images/devices/sim.png', 'Fanatec Direct Drive • Ultra Force Motion Rig', true);

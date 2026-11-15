@@ -16,11 +16,11 @@ const STATUS_CONFIG: Record<string, string> = {
 };
 
 const bookings = [
-  { id: "1", code: "#FNF-8924", customer: "Rahul Sharma", mobile: "+91 98765 43210", device: "PS 2", time: "Today 6:00–8:00 PM", status: "confirmed", source: "online", amount: "₹500" },
-  { id: "2", code: "#FNF-8925", customer: "Anita Desai", mobile: "+91 98765 12345", device: "PS 3", time: "Today 7:00–9:00 PM", status: "confirmed", source: "walk-in", amount: "₹500" },
+  { id: "1", code: "#FNF-8924", customer: "Rahul Sharma", mobile: "+91 98765 43210", device: "Station 2", time: "Today 6:00–8:00 PM", status: "confirmed", source: "online", amount: "₹500" },
+  { id: "2", code: "#FNF-8925", customer: "Anita Desai", mobile: "+91 98765 12345", device: "Station 3", time: "Today 7:00–9:00 PM", status: "confirmed", source: "walk-in", amount: "₹500" },
   { id: "3", code: "#FNF-8926", customer: "Vikram Patel", mobile: "+91 98765 67890", device: "VR 1", time: "Tomorrow 4:00–6:00 PM", status: "held", source: "online", amount: "₹600" },
   { id: "4", code: "#FNF-8927", customer: "Sneha Rao", mobile: "+91 98765 24680", device: "Racing Sim", time: "Tomorrow 6:00–8:00 PM", status: "checked_in", source: "phone", amount: "₹700" },
-  { id: "5", code: "#FNF-8928", customer: "Karan Joshi", mobile: "+91 98765 13579", device: "PS 1", time: "Today 8:00–10:00 PM", status: "cancelled", source: "online", amount: "₹500" },
+  { id: "5", code: "#FNF-8928", customer: "Karan Joshi", mobile: "+91 98765 13579", device: "Station 1", time: "Today 8:00–10:00 PM", status: "cancelled", source: "online", amount: "₹500" },
 ];
 
 export default function AdminBookingsPage() {

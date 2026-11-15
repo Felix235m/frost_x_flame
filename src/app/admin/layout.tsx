@@ -1,10 +1,28 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback, useState, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AdminAuthProvider } from "@/components/admin/auth-context";
-import { LogOut, Calendar, BarChart3, Users, ShieldAlert, CreditCard, Building2, LayoutDashboard, FileText, Smartphone, Bell } from "lucide-react";
+import {
+  AdminAuthProvider,
+  type StaffSession,
+} from "@/components/admin/auth-context";
+import { BRAND_LOGO } from "@/lib/content/brand";
+import { cn } from "@/lib/utils";
+import {
+  BarChart3,
+  Bell,
+  Building2,
+  Calendar,
+  CreditCard,
+  FileText,
+  LayoutDashboard,
+  LogOut,
+  ShieldAlert,
+  Smartphone,
+  Users,
+  X,
+} from "lucide-react";
 
 const ADMIN_NAV = [
   { href: "/admin", icon: LayoutDashboard, label: "Live Floor", group: "all" },
@@ -21,9 +39,16 @@ const ADMIN_NAV = [
   { href: "/admin/audit", icon: FileText, label: "Audit Log", group: "owner" },
 ];
 
-export default function AdminRootLayout({ children }: { children: React.ReactNode }) {
-  const [session, setSession] = useState<any>(null);
+export default function AdminRootLayout({ children }: { children: ReactNode }) {
+  /*
+   * Every hook runs before any early return. Previously `usePathname` and the
+   * sidebar state sat below the login gate, which broke the hook order the
+   * moment a PIN succeeded.
+   */
+  const pathname = usePathname();
+  const [session, setSession] = useState<StaffSession | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const login = useCallback(async (pin: string): Promise<boolean> => {
     setIsLoading(true);
@@ -35,7 +60,7 @@ export default function AdminRootLayout({ children }: { children: React.ReactNod
       });
       const data = await res.json();
       if (res.ok && data.session) {
-        setSession(data.session);
+        setSession(data.session as StaffSession);
         return true;
       }
       return false;
@@ -46,173 +71,273 @@ export default function AdminRootLayout({ children }: { children: React.ReactNod
 
   const logout = useCallback(() => {
     setSession(null);
+    setSidebarOpen(false);
   }, []);
 
   const isOwner = () => session?.role === "owner";
 
   if (!session) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-obsidian-root">
-        <div className="w-full max-w-md p-6">
-          <PinLoginForm login={login} isLoading={isLoading} />
-        </div>
-      </div>
-    );
+    return <PinLogin isLoading={isLoading} login={login} />;
   }
 
-  const pathname = usePathname();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const navItems = ADMIN_NAV.filter((item) => item.group === "all" || item.group === session.role);
 
   return (
     <AdminAuthProvider value={{ session, login, logout, isOwner, isLoading }}>
-      <div className="flex h-screen bg-obsidian-root text-on-surface">
-        <aside className="w-64 bg-obsidian-elevated border-r border-outline-variant/20 transition-all duration-300">
-          <div className="p-space-md">
-            <Link href="/admin" className="flex items-center gap-space-sm mb-space-lg">
-              <img
-                alt="Frost x Flame Logo"
-                className="h-8 w-auto object-contain"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ1KfUlAEZ2KouPAYZUE9xiGFw72XhI5777kQ9ZGkhZ9kU8yCGFS68D3O9Y9YOvyAUlqgtGzWapyDVfXOvRa3lRSfkAWgT-Qjj4oBViPGQZf_StxKsibmjMr5zhk8XB5WCiiatZaM-pNZh5AgRmSJ3x4CxrN9XOWjLtk8E5Yiym7FwBCcmf6JHZm05-jrqpc29bCT-U6d8pBrqqNZU53b1r6NdIvDQOk0us1HGACE"
-              />
-              <span className="font-heading text-headline-sm text-on-surface tracking-tight">Frost x Flame</span>
+      <div className="flex h-dvh overflow-hidden bg-obsidian-root text-on-surface">
+        {sidebarOpen ? (
+          <button
+            aria-label="Close navigation"
+            className="fixed inset-0 z-30 bg-black/60 md:hidden"
+            onClick={() => setSidebarOpen(false)}
+            type="button"
+          />
+        ) : null}
+
+        <aside
+          className={cn(
+            "fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 flex-col border-r border-outline-variant/20 bg-obsidian-elevated transition-transform duration-300 md:static md:translate-x-0",
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          )}
+        >
+          <div className="flex items-center justify-between gap-2 px-space-md pt-space-md md:hidden">
+            <span className="font-heading text-label-action uppercase tracking-wider text-on-surface-variant">
+              Navigation
+            </span>
+            <button
+              aria-label="Close navigation"
+              className="rounded-lg p-1.5 text-on-surface-variant hover:text-frost-cyan"
+              onClick={() => setSidebarOpen(false)}
+              type="button"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto p-space-md">
+            <Link className="mb-space-lg flex items-center gap-space-sm" href="/admin">
+              <img alt="Frost x Flame" className="h-8 w-auto object-contain" src={BRAND_LOGO} />
+              <span className="font-heading text-headline-sm tracking-tight text-on-surface">
+                Frost x Flame
+              </span>
             </Link>
             <nav className="space-y-0.5">
-              {ADMIN_NAV.filter((n) => n.group === "all" || n.group === session.role).map((item) => {
+              {navItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
                   <Link
                     key={item.label}
-                    href={item.href}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg border-r-2 px-3 py-2.5 transition-colors",
                       isActive
-                        ? "bg-frost-cyan/10 text-frost-cyan border-r-2 border-frost-cyan"
-                        : "text-on-surface-variant hover:bg-surface-container hover:text-frost-cyan"
-                    }`}
+                        ? "border-frost-cyan bg-frost-cyan/10 text-frost-cyan"
+                        : "border-transparent text-on-surface-variant hover:bg-surface-container hover:text-frost-cyan"
+                    )}
+                    href={item.href}
+                    onClick={() => setSidebarOpen(false)}
                   >
-                    <item.icon className="w-5 h-5 shrink-0" />
-                    <span className="font-body-md text-body-sm">{item.label}</span>
+                    <item.icon className="h-5 w-5 shrink-0" />
+                    <span className="text-body-sm">{item.label}</span>
                   </Link>
                 );
               })}
             </nav>
           </div>
-          <div className="p-space-md border-t border-outline-variant/20 mt-auto">
-            <div className="flex items-center gap-2 mb-1">
-              <div className="w-8 h-8 rounded-full bg-frost-cyan/20 flex items-center justify-center text-frost-cyan">
+
+          <div className="border-t border-outline-variant/20 p-space-md">
+            <div className="mb-2 flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-frost-cyan/20 text-frost-cyan">
                 <span className="material-symbols-outlined text-[16px]">person</span>
               </div>
-              <div className="flex flex-col">
-                <span className="font-body-sm text-body-sm text-on-surface font-semibold">{session.name}</span>
-                <span className="font-label-badge text-label-badge text-on-surface-variant uppercase tracking-wider">{session.role}</span>
+              <div className="flex min-w-0 flex-col">
+                <span className="truncate text-body-sm font-semibold text-on-surface">
+                  {session.name}
+                </span>
+                <span className="text-label-badge uppercase tracking-wider text-on-surface-variant">
+                  {session.role}
+                </span>
               </div>
             </div>
-            <button onClick={logout} className="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors">
-              <LogOut className="w-4 h-4" />
-              <span className="font-body-sm text-body-sm">Logout</span>
+            <button
+              className="flex w-full items-center gap-2 rounded-lg bg-surface-container px-3 py-2 text-on-surface transition-colors hover:bg-surface-container-high"
+              onClick={logout}
+              type="button"
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="text-body-sm">Logout</span>
             </button>
           </div>
         </aside>
-        <div className="flex-1 overflow-hidden flex flex-col">
-          <header className="h-16 border-b border-outline-variant/20 bg-obsidian-root/80 backdrop-blur-md flex items-center justify-between px-space-lg">
-            <button
-              onClick={() => setSidebarOpen((o) => !o)}
-              className="md:hidden p-2 text-on-surface-variant hover:text-frost-cyan"
-            >
-              <span className="material-symbols-outlined text-[24px]">menu</span>
-            </button>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-lg">
-                <span className="w-2 h-2 rounded-full bg-status-available animate-ping"></span>
-                <span className="font-body-sm text-body-sm text-on-surface-variant">System Live</span>
-              </div>
+
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+          <header className="flex h-16 shrink-0 items-center justify-between gap-3 border-b border-outline-variant/20 bg-obsidian-root/80 px-space-md backdrop-blur-md md:px-space-lg">
+            <div className="flex items-center gap-2">
+              <button
+                aria-label="Open navigation"
+                className="rounded-lg p-2 text-on-surface-variant hover:text-frost-cyan md:hidden"
+                onClick={() => setSidebarOpen(true)}
+                type="button"
+              >
+                <span className="material-symbols-outlined text-[24px]">menu</span>
+              </button>
+              <span className="font-heading text-label-action uppercase tracking-wider text-on-surface-variant md:hidden">
+                Admin
+              </span>
+            </div>
+            <div className="flex items-center gap-2 rounded-lg bg-surface-container px-3 py-1.5">
+              <span className="h-2 w-2 animate-ping rounded-full bg-status-available" />
+              <span className="text-body-sm text-on-surface-variant">System Live</span>
             </div>
           </header>
-          <main className="flex-1 overflow-y-auto p-space-lg">{children}</main>
+          <main className="flex-1 overflow-y-auto p-space-md md:p-space-lg">{children}</main>
         </div>
       </div>
     </AdminAuthProvider>
   );
 }
 
-function PinLoginForm({ login, isLoading }: { login: (pin: string) => Promise<boolean>; isLoading: boolean }) {
+function PinLogin({
+  login,
+  isLoading,
+}: {
+  login: (pin: string) => Promise<boolean>;
+  isLoading: boolean;
+}) {
   const [pin, setPin] = useState("");
   const [error, setError] = useState("");
 
-  const digits = pin.split("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const press = (digit: string) => {
     setError("");
+    setPin((current) => (current.length < 6 ? current + digit : current));
+  };
+
+  const backspace = () => {
+    setError("");
+    setPin((current) => current.slice(0, -1));
+  };
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (pin.length < 6) return;
     const ok = await login(pin);
     if (!ok) {
-      setError("Invalid PIN. Try again.");
+      setError("That PIN was not recognised. Try again.");
       setPin("");
     }
   };
 
   return (
-    <div className="mx-auto">
-      <img
-        alt="Frost x Flame Logo"
-        className="mx-auto h-10 w-auto mb-6 object-contain"
-        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ1KfUlAEZ2KouPAYZUE9xiGFw72XhI5777kQ9ZGkhZ9kU8yCGFS68D3O9Y9YOvyAUlqgtGzWapyDVfXOvRa3lRSfkAWgT-Qjj4oBViPGQZf_StxKsibmjMr5zhk8XB5WCiiatZaM-pNZh5AgRmSJ3x4CxrN9XOWjLtk8E5Yiym7FwBCcmf6JHZm05-jrqpc29bCT-U6d8pBrqqNZU53b1r6NdIvDQOk0us1HGACE"
-      />
-      <h2 className="font-heading text-headline-md text-on-surface font-bold text-center mb-2">Who's on Shift</h2>
-      <p className="font-body-sm text-body-sm text-on-surface-variant text-center mb-6">Enter your staff PIN to start your shift</p>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <div className="flex justify-center gap-2">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div
-              key={i}
-              className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                digits[i - 1] ? "bg-frost-cyan text-obsidian-root shadow-[0_0_20px_rgba(0,229,255,0.4)]" : "bg-surface-container border border-outline-variant/30"
-              }`}
-            >
-              {digits[i - 1] || <span className="text-outline-variant">·</span>}
-            </div>
-          ))}
+    <div className="flex min-h-dvh flex-col items-center justify-center bg-obsidian-root px-4 py-8">
+      <div className="w-full max-w-sm">
+        <div className="mb-6 flex flex-col items-center gap-2 text-center">
+          <img alt="Frost x Flame" className="h-12 w-auto object-contain" src={BRAND_LOGO} />
+          <h1 className="font-heading text-headline-md font-bold text-on-surface">Staff sign in</h1>
+          <p className="text-body-sm text-on-surface-variant">
+            Enter your 6-digit shift PIN to open the console.
+          </p>
         </div>
-        <input
-          type="text"
-          maxLength={6}
-          value={pin}
-          onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
-          className="sr-only"
-          autoFocus
-          readOnly
-        />
-        {error && (
-          <div className="rounded-lg bg-status-booked/10 p-3 border border-status-booked/30">
-            <span className="font-body-sm text-body-sm text-status-booked">{error}</span>
-          </div>
-        )}
-        <div className="grid grid-cols-3 gap-2 pt-4">
-          {[...Array(10).keys()].map((n) => (
+
+        <form
+          className="rounded-2xl border border-border-subtle bg-obsidian-elevated p-4 shadow-glow-frost"
+          onSubmit={handleSubmit}
+        >
+          <label
+            className="mb-1.5 block text-label-badge uppercase tracking-wider text-on-surface-variant"
+            htmlFor="staff-pin"
+          >
+            Shift PIN
+          </label>
+          <input
+            autoComplete="off"
+            autoFocus
+            className={cn(
+              "h-14 w-full rounded-xl border bg-obsidian-root pl-[0.5em] text-center font-heading text-label-timer tracking-[0.5em] text-on-surface placeholder:tracking-normal placeholder:text-outline focus:outline-hidden",
+              error
+                ? "border-status-booked/60"
+                : "border-border-subtle focus:border-frost-cyan/60"
+            )}
+            id="staff-pin"
+            inputMode="numeric"
+            maxLength={6}
+            onChange={(event) => {
+              setError("");
+              setPin(event.target.value.replace(/\D/g, "").slice(0, 6));
+            }}
+            pattern="\d*"
+            placeholder="••••••"
+            type="password"
+            value={pin}
+          />
+
+          {error ? (
+            <p
+              className="mt-2 rounded-lg border border-status-booked/30 bg-status-booked/10 px-3 py-2 text-body-sm text-status-booked"
+              role="alert"
+            >
+              {error}
+            </p>
+          ) : null}
+
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((digit) => (
+              <KeypadKey key={digit} onClick={() => press(digit)}>
+                {digit}
+              </KeypadKey>
+            ))}
+            <KeypadKey muted onClick={backspace}>
+              <span className="material-symbols-outlined text-[20px]">backspace</span>
+            </KeypadKey>
+            <KeypadKey onClick={() => press("0")}>0</KeypadKey>
             <button
-              key={n}
-              type="button"
-              onClick={() => setPin((p) => (p.length < 6 ? p + n : p))}
-              className="h-12 rounded-lg bg-surface-container flex items-center justify-center text-on-surface font-heading text-headline-sm hover:bg-surface-container-high transition-colors active:scale-95"
+              className="flex h-12 items-center justify-center rounded-lg bg-frost-cyan font-heading text-label-action uppercase text-obsidian-root shadow-neon-frost transition-all hover:brightness-110 active:scale-95 disabled:pointer-events-none disabled:opacity-40 disabled:shadow-none"
+              disabled={pin.length < 6 || isLoading}
+              type="submit"
             >
-              {n === 0 ? "0" : n + 1}
+              {isLoading ? (
+                <span className="material-symbols-outlined animate-spin text-[20px]">
+                  progress_activity
+                </span>
+              ) : (
+                "Enter"
+              )}
             </button>
-          ))}
-          <button
-            type="button"
-            onClick={() => setPin((p) => p.slice(0, -1))}
-            className="h-12 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95"
-          >
-            <span className="material-symbols-outlined text-[20px]">backspace</span>
-          </button>
-          <button
-            type="submit"
-            className="h-12 rounded-lg bg-frost-cyan flex items-center justify-center text-obsidian-root font-heading text-headline-sm font-bold shadow-[0_0_20px_rgba(0,229,255,0.4)] hover:brightness-110 disabled:opacity-50 disabled:pointer-events-none"
-            disabled={pin.length < 6 || isLoading}
-          >
-            {isLoading ? "Logging in..." : "Enter"}
-          </button>
-        </div>
-      </form>
+          </div>
+        </form>
+
+        <p className="mt-4 text-center text-body-sm text-on-surface-variant">
+          PINs are issued by the owner under Settings &rarr; Staff.
+        </p>
+        <Link
+          className="mt-3 flex items-center justify-center gap-1 text-label-badge uppercase tracking-wider text-outline transition-colors hover:text-frost-cyan"
+          href="/customer"
+        >
+          <span className="material-symbols-outlined text-[14px]">arrow_back</span>
+          Back to booking site
+        </Link>
+      </div>
     </div>
+  );
+}
+
+function KeypadKey({
+  children,
+  onClick,
+  muted = false,
+}: {
+  children: ReactNode;
+  onClick: () => void;
+  muted?: boolean;
+}) {
+  return (
+    <button
+      className={cn(
+        "flex h-12 items-center justify-center rounded-lg bg-surface-container font-heading text-headline-sm text-on-surface transition-colors hover:bg-surface-container-high active:scale-95",
+        muted && "text-on-surface-variant"
+      )}
+      onClick={onClick}
+      type="button"
+    >
+      {children}
+    </button>
   );
 }

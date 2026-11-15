@@ -21,14 +21,14 @@ export default function ConfirmationPage() {
 
   const handleAddToCalendar = () => {
     const title = encodeURIComponent("Frost x Flame - PS5 Gaming Session");
-    const details = encodeURIComponent("Station: PS 2 Duo. Ticket ID: #FNF-8924. Address: Near Navelim Church, Salcete Goa.");
+    const details = encodeURIComponent("Station: Station 2 Duo. Ticket ID: #FNF-8924. Address: Near Navelim Church, Salcete Goa.");
     const location = encodeURIComponent("Frost x Flame Cyber Lounge, Navelim, Goa");
     const dates = "20261115T180000Z/20261115T200000Z";
     window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${dates}`, "_blank");
   };
 
   const handleShareWhatsApp = () => {
-    const text = encodeURIComponent("🎮 We're locked in at Frost x Flame Arena!\n\nTicket: #FNF-8924\nRig: PS 2 (PS5 Pro Duo)\nSlot: Today, 6:00 PM - 8:00 PM\nTotal: ₹500 (Paid)\nLocation: Navelim, Goa\n\nShow QR at counter for zero-wait unlock!");
+    const text = encodeURIComponent("🎮 We're locked in at Frost x Flame Arena!\n\nTicket: #FNF-8924\nRig: Station 2 (PS5 Pro Duo)\nSlot: Today, 6:00 PM - 8:00 PM\nTotal: ₹500 (Paid)\nLocation: Navelim, Goa\n\nShow QR at counter for zero-wait unlock!");
     window.open(`https://wa.me/?text=${text}`, "_blank");
   };
 
@@ -155,7 +155,7 @@ export default function ConfirmationPage() {
                 <span className="font-label-badge text-label-badge uppercase tracking-wider text-on-surface-variant">Station Allocated</span>
                 <span className="font-label-badge text-label-badge uppercase tracking-wider text-secondary px-2 py-0.5 rounded bg-on-secondary-container">Zone Frost-East</span>
               </div>
-              <p className="font-headline-sm text-headline-sm text-on-surface">PS 2 • PlayStation 5 Pro</p>
+              <p className="font-headline-sm text-headline-sm text-on-surface">Station 2 • PlayStation 5 Pro</p>
               <p className="font-body-sm text-body-sm text-on-surface-variant">65" OLED 120Hz 4K • DualSense Edge Duo Setup</p>
             </div>
 
@@ -284,7 +284,7 @@ export default function ConfirmationPage() {
                 </button>
               </div>
               <p className="font-body-md text-body-md text-on-surface-variant">
-                You are requesting a modification for <strong className="text-on-surface">PS 2 (Today, 6:00 PM - 8:00 PM)</strong>.
+                You are requesting a modification for <strong className="text-on-surface">Station 2 (Today, 6:00 PM - 8:00 PM)</strong>.
                 Full refund of <span className="text-status-available font-semibold">₹500</span> will be credited directly to your PhonePe account within 15 minutes.
               </p>
               <div className="flex flex-col gap-1">

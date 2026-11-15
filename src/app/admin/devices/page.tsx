@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const DEVICES = [
-  { id: "1", name: "PS 1", type: "PS5", rate: "₹250/h", status: "free", note: "Controller battery 85%" },
-  { id: "2", name: "PS 2", type: "PS5", rate: "₹250/h", status: "running", note: "Lens cleaning due" },
-  { id: "3", name: "PS 3", type: "PS5", rate: "₹250/h", status: "free", note: null },
+  { id: "1", name: "Station 1", type: "PS5", rate: "₹250/h", status: "free", note: "Controller battery 85%" },
+  { id: "2", name: "Station 2", type: "PS5", rate: "₹250/h", status: "running", note: "Lens cleaning due" },
+  { id: "3", name: "Station 3", type: "PS5", rate: "₹250/h", status: "free", note: null },
   { id: "4", name: "VR 1", type: "VR", rate: "₹300/h", status: "free", note: "Controllers synced" },
   { id: "5", name: "VR 2", type: "VR", rate: "₹300/h", status: "blocked", note: "Headset repair" },
   { id: "6", name: "Racing Sim", type: "Sim", rate: "₹350/h", status: "free", note: "Calibration OK" },

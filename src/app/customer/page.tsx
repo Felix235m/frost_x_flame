@@ -162,33 +162,35 @@ export default function LandingPage() {
           </div>
 
           <div className="relative isolate min-h-56 overflow-hidden rounded-2xl border border-outline-variant/25 lg:col-span-7 lg:min-h-0">
-            <img
-              alt="Map showing the FrostxFlame cafe location in Manavalakurthi"
-              className="absolute inset-0 -z-10 h-full w-full object-cover"
-              loading="lazy"
-              src={CAFE.mapImage}
-            />
-            <div className="absolute inset-0 -z-10 bg-linear-to-t from-obsidian-root/90 via-obsidian-root/20 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 p-4">
-              <span className="flex w-fit items-center gap-1.5 rounded-lg bg-obsidian-root/85 px-2.5 py-1 text-body-sm text-white backdrop-blur-sm">
-                <span
-                  className="material-symbols-outlined text-[16px] text-flame-neon"
-                  style={{ fontVariationSettings: "'FILL' 1" }}
-                >
-                  location_on
+            <Link
+              href={CAFE.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block h-full w-full"
+            >
+              <img
+                alt="Map showing the FrostxFlame cafe location in Manavalakurthi"
+                className="absolute inset-0 -z-10 h-full w-full object-cover"
+                loading="lazy"
+                src={CAFE.mapImage}
+              />
+              <div className="absolute inset-0 -z-10 bg-linear-to-t from-obsidian-root/90 via-obsidian-root/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 p-4">
+                <span className="flex w-fit items-center gap-1.5 rounded-lg bg-obsidian-root/85 px-2.5 py-1 text-body-sm text-white backdrop-blur-sm">
+                  <span
+                    className="material-symbols-outlined text-[16px] text-flame-neon"
+                    style={{ fontVariationSettings: "'FILL' 1" }}
+                  >
+                    location_on
+                  </span>
+                  FrostxFlame Hub
                 </span>
-                FrostxFlame Hub
-              </span>
-              <a
-                className="flex w-fit items-center gap-2 rounded-lg bg-surface-container-high px-3.5 py-2.5 text-label-action font-heading uppercase tracking-wider text-on-surface transition-colors hover:bg-surface-container-highest hover:text-frost-cyan"
-                href={CAFE.mapsUrl}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <span className="material-symbols-outlined text-[18px] text-frost-cyan">near_me</span>
-                Open in Google Maps
-              </a>
-            </div>
+                <span className="flex w-fit items-center gap-2 rounded-lg bg-surface-container-high px-3.5 py-2.5 text-label-action font-heading uppercase tracking-wider text-on-surface transition-colors hover:bg-surface-container-highest hover:text-frost-cyan">
+                  <span className="material-symbols-outlined text-[18px] text-frost-cyan">near_me</span>
+                  Open in Google Maps
+                </span>
+              </div>
+            </Link>
           </div>
         </div>
       </section>

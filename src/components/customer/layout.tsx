@@ -2,7 +2,21 @@
 
 import { Navbar, BottomNav } from "@/components/customer/navbar";
 
-export function CustomerLayout({ children }: { children: React.ReactNode }) {
+export interface CustomerLayoutProps {
+  children: React.ReactNode;
+  /**
+   * "shell" is the tabbed experience (top nav + bottom nav).
+   * "focused" drops both chrome so a step-by-step flow can render its own
+   * back header and sticky action bar without competing navigation.
+   */
+  variant?: "shell" | "focused";
+}
+
+export function CustomerLayout({ children, variant = "shell" }: CustomerLayoutProps) {
+  if (variant === "focused") {
+    return <div className="min-h-screen bg-obsidian-root text-on-surface">{children}</div>;
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-obsidian-root text-on-surface">
       <Navbar />

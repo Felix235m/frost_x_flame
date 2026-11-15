@@ -102,12 +102,26 @@
   --color-flame-neon-orange: #ff5500;
   --color-flame-amber: #f97316;
 
+  /* Primary / secondary / tertiary roles used by the Cyber Void screens */
+  --color-primary: #c3f5ff;
+  --color-on-primary: #00363d;
+  --color-primary-container: #00e5ff;
+  --color-on-primary-container: #00626e;
+  --color-inverse-primary: #006875;
+  --color-on-background: #e2e2e8;
+  --color-surface: #111318;
+  --color-surface-variant: #333539;
+
   /* Supporting accents */
   --color-secondary: #ffb59c;
+  --color-on-secondary: #5c1900;
   --color-secondary-container: #ff5708;
+  --color-on-secondary-container: #511500;
   --color-tertiary: #a8ffd2;
+  --color-on-tertiary: #003824;
   --color-tertiary-container: #5be9ad;
   --color-tertiary-fixed: #6ffbbe;
+  --color-tertiary-fixed-dim: #4edea3;
   --color-on-tertiary-container: #006645;
 
   /* Status semantics */

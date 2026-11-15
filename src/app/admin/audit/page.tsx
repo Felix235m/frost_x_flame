@@ -1,8 +1,8 @@
 "use client";
 
 const AUDIT = [
-  { at: "Today 10:15 AM", staff: "Owner", action: "Created walk-in booking", entity: "PS 2 • 6:00 PM", reason: "Walk-in customer" },
-  { at: "Today 9:42 AM", staff: "In-Charge", action: "Cancelled booking", entity: "#FNF-8928 • PS 1", reason: "Customer request" },
+  { at: "Today 10:15 AM", staff: "Owner", action: "Created walk-in booking", entity: "Station 2 • 6:00 PM", reason: "Walk-in customer" },
+  { at: "Today 9:42 AM", staff: "In-Charge", action: "Cancelled booking", entity: "#FNF-8928 • Station 1", reason: "Customer request" },
   { at: "Today 9:00 AM", staff: "Owner", action: "Updated pricing rule", entity: "PS5 2-person rate", reason: "Owner adjustment" },
   { at: "Yesterday 8:00 PM", staff: "Staff A", action: "Checked in customer", entity: "VR 1 • 7:00 PM", reason: "Session start" },
 ];

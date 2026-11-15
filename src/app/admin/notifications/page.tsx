@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const NOTIFS = [
-  { id: "1", type: "cancellation", priority: "high", time: "2 min ago", title: "Slot Cancelled — PS 2", body: "6:00 PM – 8:00 PM slot is now free. Rahul Sharma cancelled. ₹500 refund eligible.", devices: "PS 2", action: "Notify Waitlist" },
-  { id: "2", type: "new_booking", priority: "normal", time: "15 min ago", title: "New Online Booking", body: "PS 3 booked for 7:00 PM – 9:00 PM by Anita Desai.", devices: "PS 3", action: "View" },
+  { id: "1", type: "cancellation", priority: "high", time: "2 min ago", title: "Slot Cancelled — Station 2", body: "6:00 PM – 8:00 PM slot is now free. Rahul Sharma cancelled. ₹500 refund eligible.", devices: "Station 2", action: "Notify Waitlist" },
+  { id: "2", type: "new_booking", priority: "normal", time: "15 min ago", title: "New Online Booking", body: "Station 3 booked for 7:00 PM – 9:00 PM by Anita Desai.", devices: "Station 3", action: "View" },
   { id: "3", type: "new_booking", priority: "normal", time: "40 min ago", title: "Walk-in Check-in", body: "VR 1 started session. Walk-in customer, 2 persons.", devices: "VR 1", action: "View" },
   { id: "4", type: "cancellation", priority: "high", time: "2 hrs ago", title: "Late Cancellation", body: "VR 2 cancelled 90 min before start. No refund eligible.", devices: "VR 2", action: "View" },
 ];
