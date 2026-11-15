@@ -1,26 +1,178 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/*
+ * Frost x Flame design tokens.
+ *
+ * Tailwind v4 reads theme values from CSS, not from tailwind.config.ts, so every
+ * token the app relies on (type scale, spacing names, agnostic aliases) lives here.
+ * Adding a new scale here is what makes classes like `px-margin` or `text-headline-md`
+ * actually compile.
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Typography */
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+  --font-body-sm: var(--font-inter);
+  --font-body-md: var(--font-inter);
+  --font-body-lg: var(--font-inter);
+
+  --text-body-sm: 12px;
+  --text-body-sm--line-height: 16px;
+  --text-body-md: 14px;
+  --text-body-md--line-height: 20px;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 24px;
+
+  --text-headline-sm: 18px;
+  --text-headline-sm--line-height: 24px;
+  --text-headline-sm--font-weight: 600;
+  --text-headline-md: 22px;
+  --text-headline-md--line-height: 28px;
+  --text-headline-md--font-weight: 600;
+  --text-headline-lg: 32px;
+  --text-headline-lg--line-height: 38px;
+  --text-headline-lg--font-weight: 700;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg-mobile: 26px;
+  --text-headline-lg-mobile--line-height: 32px;
+  --text-headline-lg-mobile--font-weight: 700;
+  --text-headline-lg-mobile--letter-spacing: -0.01em;
+  --text-display-hero: 48px;
+  --text-display-hero--line-height: 54px;
+  --text-display-hero--font-weight: 700;
+  --text-display-hero--letter-spacing: -0.03em;
+  --text-display-hero-mobile: 34px;
+  --text-display-hero-mobile--line-height: 40px;
+  --text-display-hero-mobile--font-weight: 700;
+  --text-display-hero-mobile--letter-spacing: -0.02em;
+
+  --text-label-badge: 11px;
+  --text-label-badge--line-height: 14px;
+  --text-label-badge--letter-spacing: 0.08em;
+  --text-label-action: 14px;
+  --text-label-action--line-height: 18px;
+  --text-label-action--letter-spacing: 0.04em;
+  --text-label-timer: 20px;
+  --text-label-timer--line-height: 24px;
+  --text-label-timer--letter-spacing: 0.05em;
+
+  /*
+   * Spacing scale used by the app shell and screens.
+   * Deliberately NOT named xs/sm/md/lg/xl: in v4 a `--spacing-lg` token makes
+   * `max-w-lg` resolve to 1.5rem instead of the container scale.
+   */
+  --spacing-gutter: 1rem;
+  --spacing-margin: 1rem;
+  --spacing-gutter-desktop: 1.5rem;
+  --spacing-margin-desktop: 2.5rem;
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 1rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xl: 2.5rem;
+
+  /* Layout containers */
+  --container-app: 76rem;
+
+  /* Obsidian surfaces */
+  --color-obsidian-root: #0a0c10;
+  --color-obsidian-elevated: #12161f;
+  --color-obsidian-card: #1a202c;
+  --color-surface-obsidian-root: #0a0c10;
+  --color-surface-container: #1e2024;
+  --color-surface-container-low: #1a1c20;
+  --color-surface-container-lowest: #0c0e12;
+  --color-surface-container-high: #282a2e;
+  --color-surface-container-highest: #333539;
+  --color-surface-bright: #37393e;
+  --color-surface-dim: #111318;
+  --color-on-surface: #e2e2e8;
+  --color-on-surface-variant: #bac9cc;
+  --color-outline: #849396;
+  --color-outline-variant: #3b494c;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-glow-frost: rgba(0, 229, 255, 0.35);
+  --color-border-glow-flame: rgba(255, 85, 0, 0.35);
+
+  /* Brand spectrum */
+  --color-frost-cyan: #00e5ff;
+  --color-frost-sky: #38bdf8;
+  --color-flame-neon: #ff5500;
+  --color-flame-neon-orange: #ff5500;
+  --color-flame-amber: #f97316;
+
+  /* Supporting accents */
+  --color-secondary: #ffb59c;
+  --color-secondary-container: #ff5708;
+  --color-tertiary: #a8ffd2;
+  --color-tertiary-container: #5be9ad;
+  --color-tertiary-fixed: #6ffbbe;
+  --color-on-tertiary-container: #006645;
+
+  /* Status semantics */
+  --color-status-available: #10b981;
+  --color-status-held: #f59e0b;
+  --color-status-booked: #ef4444;
+
+  /* Elevation */
+  --shadow-neon-available: 0 0 20px rgba(16, 185, 129, 0.25), inset 0 0 12px rgba(16, 185, 129, 0.1);
+  --shadow-neon-frost: 0 0 24px rgba(0, 229, 255, 0.35);
+  --shadow-neon-flame: 0 0 20px rgba(255, 85, 0, 0.25);
+  --shadow-cart: 0 12px 36px rgba(0, 0, 0, 0.85), 0 0 24px rgba(0, 229, 255, 0.2);
+  --shadow-glow-frost: 0 0 0 1px rgba(0, 229, 255, 0.28), 0 18px 48px rgba(0, 0, 0, 0.55);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-obsidian-root font-sans text-on-surface antialiased selection:bg-frost-cyan selection:text-obsidian-root;
+    /* No width: 100vw here - that forces a horizontal scrollbar and breaks gutters. */
+    min-height: 100dvh;
+    overscroll-behavior-y: none;
+  }
+
+  /* Icons must never fall back to raw ligature text */
+  .material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    flex-shrink: 0;
+    -webkit-font-smoothing: antialiased;
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility text-tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
