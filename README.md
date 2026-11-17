@@ -31,6 +31,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Set these variables in the Vercel project's **Settings → Environment Variables** for each environment you deploy:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+
+Use the corresponding values from your Supabase project. Keep `SUPABASE_SERVICE_ROLE_KEY` server-only; do not prefix it with `NEXT_PUBLIC_`. The Vercel project configuration does not define Supabase secrets, so configure these variables in the Vercel dashboard before deploying.
