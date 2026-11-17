@@ -28,9 +28,13 @@ export interface Station {
   typeLabel: string;
   rig: string;
   screen: string;
-  /** Rate shown on the floor plan — the default tier for this station type. */
+  /** Group rate for the popular tier — used where a party size is already picked. */
   ratePerHour: number;
+  /** Lowest tier, one person alone. This is the rate the floor plan advertises. */
+  soloRatePerHour: number;
   defaultPlayers: number;
+  /** Highest headcount tier the rig supports. */
+  maxPlayers: number;
   zone: string;
   image: string;
   imageAlt: string;
@@ -61,6 +65,17 @@ export function defaultTierFor(type: StationType): PlayerTier {
 
 export function getTier(type: StationType, players: number): PlayerTier {
   return PLAYER_TIERS[type].find((t) => t.players === players) ?? PLAYER_TIERS[type][0];
+}
+
+/** The one-person tier: the single-player rate, and the floor's advertised price. */
+export function soloTierFor(type: StationType): PlayerTier {
+  return PLAYER_TIERS[type].reduce((lowest, tier) =>
+    tier.players < lowest.players ? tier : lowest
+  );
+}
+
+export function maxPlayersFor(type: StationType): number {
+  return PLAYER_TIERS[type].reduce((most, tier) => Math.max(most, tier.players), 1);
 }
 
 const PS5_IMAGE =
@@ -148,7 +163,9 @@ export const STATIONS: Station[] = SEEDS.map((seed) => {
     rig: meta.rig,
     screen: meta.screen,
     ratePerHour: tier.ratePerHour,
+    soloRatePerHour: soloTierFor(seed.type).ratePerHour,
     defaultPlayers: tier.players,
+    maxPlayers: maxPlayersFor(seed.type),
     zone: seed.zone,
     image: meta.image,
     imageAlt: meta.alt,
