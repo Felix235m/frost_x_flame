@@ -51,9 +51,14 @@ export default function CancelPage() {
   }, [bookingId]);
 
   const handleCancel = async (reason: string, refund: boolean) => {
+    if (!session) {
+      router.replace("/in-charge/login");
+      return;
+    }
+
     setLoading(true);
     try {
-      const result: CancelResult = await cancelBooking(bookingId, session?.staff_id ?? null, reason);
+      const result: CancelResult = await cancelBooking(bookingId, session.staff_id, reason);
       if (result.ok) {
         setModalOpen(false);
         router.replace("/in-charge/cancelled");
